@@ -1,0 +1,3 @@
+test:
+  override:
+    - salt-call --local state.show_highstate
