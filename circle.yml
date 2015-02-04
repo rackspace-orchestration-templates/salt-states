@@ -1,3 +1,6 @@
+dependencies:
+  override:
+    - curl -L https://bootstrap.saltstack.com | sudo sh -s --
 test:
   override:
-          - salt-call --local --id=$CIRCLE_SHA1 --file-root=$HOME/$CIRCLE_PROJECT_REPONAME state.show_highstate
+    - salt-call --local state.show_highstate
