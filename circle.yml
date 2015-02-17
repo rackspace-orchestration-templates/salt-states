@@ -1,6 +1,6 @@
-dependencies:
-  override:
-    - curl -L https://bootstrap.saltstack.com | sudo sh -s --
+#dependencies:
+#  override:
+#    - curl -L https://bootstrap.saltstack.com | sudo sh -s --
 test:
   override:
     - sudo salt-call --local state.show_highstate
