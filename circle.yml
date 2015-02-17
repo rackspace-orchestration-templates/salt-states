@@ -1,7 +1,7 @@
 machine:
   environment:
-    STATES: /tmp/srv/salt
-    PILLAR: /tmp/srv/pillar
+    STATES: .
+    PILLAR: ./.pillar
 test:
   override:
     - sudo env PATH=$PATH salt-call --file-root=$STATES --pillar-root=$PILLAR --local state.show_highstate
