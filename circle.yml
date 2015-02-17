@@ -3,4 +3,4 @@ dependencies:
     - curl -L https://bootstrap.saltstack.com | sudo sh -s --
 test:
   override:
-    - salt-call --local state.show_highstate
+    - sudo salt-call --local state.show_highstate
