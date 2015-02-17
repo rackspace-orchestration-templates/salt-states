@@ -7,7 +7,9 @@ States exist in the root of this repository. Each state will be listed
 in `top.sls` for testing purposes.
 
 ## Pillar
-Pillar data for each state should be placed in `.pillar`.
+Pillar data for each state should be placed in `.pillar`. Each state should
+provide example data under the same name of the state. List your pillar data
+in `top.sls` to be included in testing.
 
 ## TODO
  * Writing out the pillar data in a secure manner using the str\_replace feature.
