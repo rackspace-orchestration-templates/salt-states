@@ -4,4 +4,4 @@ machine:
     PILLAR: /tmp/srv/pillar
 test:
   override:
-    - salt-call --file-root=$STATES --pillar-root=$PILLAR --local state.show_highstate
+    - sudo salt-call --file-root=$STATES --pillar-root=$PILLAR --local state.show_highstate
