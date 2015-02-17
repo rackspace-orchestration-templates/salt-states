@@ -1,6 +1,7 @@
-#dependencies:
-#  override:
-#    - curl -L https://bootstrap.saltstack.com | sudo sh -s --
+machine:
+  environment:
+    STATES: /tmp/srv/salt
+    PILLAR: /tmp/srv/pillar
 test:
   override:
-    - sudo salt-call --local state.show_highstate
+    - salt-call --file-root=$STATES --pillar-root=$PILLAR --local state.show_highstate
