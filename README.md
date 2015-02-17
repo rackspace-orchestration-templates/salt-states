@@ -10,3 +10,7 @@ Salt States for use in the local salt-call configuration method.
 ## Resources
  * [Masterless Salt Quickstart](http://docs.saltstack.com/en/latest/topics/tutorials/quickstart.html)
  * [Cloud Config Examples](http://cloudinit.readthedocs.org/en/latest/topics/examples.html)
+
+```
+sudo salt-call state.highstate -l error | grep changed && (exit 42)
+```
