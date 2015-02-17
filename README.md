@@ -1,3 +1,4 @@
+[![Circle CI](https://circleci.com/gh/rackspace-orchestration-templates/salt-states.svg?style=svg)](https://circleci.com/gh/rackspace-orchestration-templates/salt-states)
 # salt-states
 Salt States for use in the local salt-call configuration method.
 
