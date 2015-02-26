@@ -2,6 +2,7 @@
 
 # Install salt-minion using Salt Bootstrap
 curl -L https://bootstrap.saltstack.com | sudo sh -s --
+salt-minion --versions
 # Set salt-minion to only use local resources
 echo "file_client: local" > /etc/salt/minion.d/local.conf
 # Make Pillar folder
