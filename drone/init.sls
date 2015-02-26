@@ -5,6 +5,7 @@ drone-dependencies:
       - bc
       - python-dev
       - build-essential
+      - libffi-dev
 
 docker-py:
   pip.installed:
