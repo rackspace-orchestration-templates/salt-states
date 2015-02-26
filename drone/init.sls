@@ -2,11 +2,13 @@ drone-dependencies:
   pkg.installed:
     - pkgs: {{ salt['pillar.get']('drone:packages') }}
 
-pip-dependencies:
+docker-py:
   pip.installed:
-    - pkgs:
-      - docker-py
-      - pyOpenSSL
+    - require:
+      - pkg: drone-dependencies
+
+pyOpenSSL:
+  pip.installed:
     - require:
       - pkg: drone-dependencies
 
