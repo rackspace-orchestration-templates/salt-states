@@ -7,7 +7,7 @@ docker-py:
     - require:
       - pkg: drone-dependencies
 
-pyOpenSSL
+pyOpenSSL:
   pip.installed:
     - require:
       - pkg: drone-dependencies
