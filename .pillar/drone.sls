@@ -6,3 +6,5 @@ drone:
   packages:
     - python-pip
     - bc
+    - python-dev
+    - build-essential
