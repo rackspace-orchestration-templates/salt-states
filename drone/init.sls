@@ -1,6 +1,10 @@
 drone-dependencies:
   pkg.installed:
-    - pkgs: {{ salt['pillar.get']('drone:packages') }}
+    - pkgs:
+      - python-pip
+      - bc
+      - python-dev
+      - build-essential
 
 docker-py:
   pip.installed:
