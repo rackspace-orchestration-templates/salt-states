@@ -11,6 +11,7 @@ drone-dependencies:
 upgrade-pip:
   cmd.run:
     - name: easy_install -U pip
+    - reload_modules: True
     - require:
       - pkg: drone-dependencies
 
