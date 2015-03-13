@@ -2,6 +2,7 @@ drone-dependencies:
   pkg.installed:
     - pkgs:
       - bc
+      - python-setuptools
       - python-dev
       - build-essential
       - libffi-dev
@@ -10,6 +11,8 @@ drone-dependencies:
 upgrade-pip:
   cmd.run:
     - name: easy_install -U pip
+    - require:
+      - pkg: drone-dependencies
 
 docker-py:
   pip.installed:
@@ -27,6 +30,8 @@ drone-selfsigned-cert:
     - ca.cert_base_path: /etc/pki
     - tls_dir: drone
     - CN: drone
+    - require:
+      - pip: pyOpenSSL
 
 drone-package:
   pkg.installed:
