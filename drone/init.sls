@@ -1,12 +1,15 @@
 drone-dependencies:
   pkg.installed:
     - pkgs:
-      - python-pip
       - bc
       - python-dev
       - build-essential
       - libffi-dev
       - libssl-dev
+
+upgrade-pip:
+  cmd.run:
+    - name: easy_install -U pip
 
 docker-py:
   pip.installed:
