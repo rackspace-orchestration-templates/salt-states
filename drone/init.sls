@@ -21,12 +21,9 @@ docker-py:
 
 pyOpenSSL:
   pip.installed:
+    - reload_modules: True
     - require:
       - pkg: drone-dependencies
-
-refresh-modules:
-  module.run:
-    - name: saltutil.refresh_modules
 
 drone-selfsigned-cert:
   module.run:
