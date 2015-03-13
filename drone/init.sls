@@ -24,6 +24,10 @@ pyOpenSSL:
     - require:
       - pkg: drone-dependencies
 
+refresh-modules:
+  module.run:
+    - name: saltutil.refresh_modules
+
 drone-selfsigned-cert:
   module.run:
     - name: tls.create_self_signed_cert
