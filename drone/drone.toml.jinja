@@ -1,5 +1,5 @@
 [server]
-port=".{{ salt['pillar.get']('drone:port', '443') }}"
+port=":{{ salt['pillar.get']('drone:port', '443') }}"
 
 [server.ssl]
 key="{{ salt['pillar.get']('drone:ssl_key', '/etc/pki/drone/certs/drone.key') }}"
