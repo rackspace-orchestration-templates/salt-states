@@ -1,0 +1,12 @@
+<?php
+$AUTOCONFIG = array(
+  "dbtype"        => "mysql",
+  "dbname"        => "owncloud",
+  "dbuser"        => "owncloud",
+  "dbpass"        => "{{ salt['pillar.get']('owncloud:db_password', 'dbpass123') }}",
+  "dbhost"        => "localhost",
+  "dbtableprefix" => "",
+  "adminlogin"    => "{{ salt['pillar.get']('owncloud:username', 'root')",
+  "adminpass"     => "{{ salt['pillar.get']('owncloud:password', 'root-password')",
+  "directory"     => "/www/htdocs/owncloud/data",
+);

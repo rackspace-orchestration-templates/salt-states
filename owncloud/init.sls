@@ -9,3 +9,12 @@ install-owncloud:
   pkg.installed:
     - name: owncloud
     - refresh: True
+
+write-autoconfig:
+  file.managed:
+    - name: /var/www/owncloud/config/autoconfig.php
+    - source: salt://owncloud/autoconfig.php.jinja
+    - user: www-data
+    - group: www-data
+    - mode: 644
+    - template: jinja
