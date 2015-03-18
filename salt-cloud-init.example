@@ -1,0 +1,63 @@
+# This file contains a working copy of the cloud-init data
+# necessary to run masterless Salt.
+
+#cloud-config
+package_update: true
+packages:
+  - git
+write_files:
+# Set salt-minion to only use local resources
+  - path: /etc/salt/minion.d/local.conf
+    permissions: '0644'
+    content: |
+      file_client: local
+      mysql.default_file: '/etc/mysql/debian.cnf'
+# Write out Pillar top.sls
+  - path: /srv/pillar/top.sls
+    permissions: '0600'
+    content: |
+      base:
+        '*':
+          - localhost
+# Write out State top.sls
+  - path: /srv/salt/top.sls
+    permissions: '0644'
+    content: |
+      base:
+        '*':
+          - salt-minion
+          - mysql
+          - owncloud
+# Example Pillar Data using %value% notation
+# See example pillar data from states repository.
+  - path: /srv/pillar/localhost.sls
+    permissions: '0600'
+    content: |
+      owncloud:
+        username: %owncloud_username%
+        password: %owncloud_password%
+        db_password: %owncloud_db_password%
+      mysql:
+        root_password: %mysql_root_password%
+# Salt Bootstrap script
+  - path: /tmp/heat/salt_run.sh
+    permissions: '0500'
+    content: |
+      #!/bin/bash
+      # Install salt-minion using Salt Bootstrap
+      curl -L https://bootstrap.saltstack.com | sudo sh -s --
+      salt-minion --versions
+      # Clone down States
+      mkdir -p /tmp/heat/states
+      git clone https://github.com/rackspace-orchestration-templates/salt-states.git /tmp/heat/states
+      cp -nr /tmp/heat/states/* /srv/salt/
+      # Run local highstate
+      salt-call --local state.highstate
+      # Open and Enable ufw
+      ufw allow 443
+      ufw allow 80
+      ufw allow 22
+      ufw --force enable
+      wc_notify --data-binary '{"status": "SUCCESS"}'
+runcmd:
+  - /tmp/heat/salt_run.sh
