@@ -8,5 +8,5 @@ $AUTOCONFIG = array(
   "dbtableprefix" => "",
   "adminlogin"    => "{{ salt['pillar.get']('owncloud:username', 'root') }}",
   "adminpass"     => "{{ salt['pillar.get']('owncloud:password', 'root-password') }}",
-  "directory"     => "/www/htdocs/owncloud/data",
+  "directory"     => "/var/www/owncloud/data",
 );
