@@ -1,7 +1,9 @@
 {% set mysql_root_password = salt['pillar.get']('mysql:root_password', '') %}
-install-debconf-utils:
+install-mysql-dependencies:
   pkg.installed:
-    - name: debconf-utils
+    - pkgs:
+      - debconf-utils
+      - python-mysqldb
 
 mysql_debconf:
   debconf.set:
@@ -16,3 +18,12 @@ install-mysql-server:
     - name: mysql-server
   service.running:
     - name: mysql
+
+write-defaults-file:
+  file.managed:
+    - name: /root/.my.cnf
+    - source: salt://mysql/my.cnf.jinja
+    - user: root
+    - group: root
+    - mode: 600
+    - template: jinja
