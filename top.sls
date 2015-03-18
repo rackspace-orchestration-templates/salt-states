@@ -1,5 +1,7 @@
 base:
   '*':
-    - salt-minion
     - docker
     - drone
+    - mysql
+    - owncloud
+    - salt-minion
