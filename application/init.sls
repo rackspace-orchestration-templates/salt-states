@@ -32,13 +32,6 @@ disable-strict-host-key-check:
           Host *
               StrictHostKeyChecking no
 
-application-repo-fingerprint:
-  ssh_known_hosts:
-    - name: {{ salt['pillar.get']('application:repo_hostname', '') }}
-    - present
-    - user: root
-    - fingerprint: {{ salt['pillar.get']('application:fingerprint', '') }}
-
 checkout-application:
   git.latest:
     - name: {{ salt['pillar.get']('application:repo', '') }}
