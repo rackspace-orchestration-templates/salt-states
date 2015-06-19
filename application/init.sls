@@ -1,6 +1,6 @@
 application-dependencies:
   pkg.installed:
-    - pkgs: {{ salt['pillar.get']('application:packages', '') }}
+    - pkgs: {{ salt['pillar.get']('application:packages', '[]') }}
 
 write-application-deploy-key:
   file.managed:
@@ -12,11 +12,10 @@ write-application-deploy-key:
 
 application-repo-fingerprint:
   ssh_known_hosts:
-    - name: gitlab.example.com
+    - name: {{ salt['pillar.get']('application:repo_hostname', '') }}
     - present
     - user: root
-    - enc: ecdsa
-    - fingerprint: 4e:94:b0:54:c1:5b:29:a2:70:0e:e1:a3:51:ee:ee:e3
+    - fingerprint: {{ salt['pillar.get']('application:fingerprint', '') }}
 
 checkout-application:
   git.latest:
