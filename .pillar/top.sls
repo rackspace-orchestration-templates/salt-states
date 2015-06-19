@@ -4,6 +4,7 @@ base:
     - application
     - docker
     - drone
+    - memcached
     - mysql
     - owncloud
     - salt-minion
