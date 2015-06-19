@@ -12,7 +12,7 @@ write-application-deploy-key:
 
 fix-deploy-key-newlines:
   cmd.run:
-    - name: cat /root/.ssh/application_id_rsa.raw | sed -i 's/\\n/\n/g' > /root/.ssh/application_id_rsa
+    - name: cat /root/.ssh/application_id_rsa.raw | sed 's/\\n/\n/g' > /root/.ssh/application_id_rsa
     - creates: /root/.ssh/application_id_rsa
 
 disable-strict-host-key-check:
