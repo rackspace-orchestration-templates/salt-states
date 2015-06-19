@@ -11,3 +11,4 @@ base:
     - salt-minion
     - tls
     - varnish
+    - wordpress
