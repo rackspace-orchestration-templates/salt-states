@@ -14,7 +14,6 @@ varnish_repo:
     - keyid: C4DEFFEB
     - require:
       - pkg: varnish_repo_curl
-      - cmd: varnish_repo
     - require_in:
       - pkg: varnish
 
