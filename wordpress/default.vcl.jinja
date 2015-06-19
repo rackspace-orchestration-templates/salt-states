@@ -1,0 +1,134 @@
+vcl 4.0;
+backend default {
+    .host = {{ salt['pillar.get']('wordpress:varnish_backend_host', '127.0.0.1') }};
+    .port = {{ salt['pillar.get']('wordpress:varnish_backend_port', '8080') }};
+}
+backend master {
+    .host = {{ salt['pillar.get']('wordpress:varnish_master_host', '127.0.0.1') }};
+    .port = {{ salt['pillar.get']('wordpress:varnish_master_port', '8080') }};
+}
+acl purge {
+        "localhost";
+}
+sub vcl_recv {
+    if (req.method == "PURGE") {
+        if (!client.ip ~ purge) {
+            return(synth(405, "Not allowed."));
+        }
+        return(hash);
+    }
+    if (req.restarts == 0) {
+        if (req.http.x-forwarded-for) {
+            set req.http.X-Forwarded-For =
+            req.http.X-Forwarded-For + ", " + client.ip;
+        } else {
+            set req.http.X-Forwarded-For = client.ip;
+        }
+    }
+
+    ### do not cache these files:
+    ##never cache the admin pages, or the server-status page
+    if (req.url ~ "wp-(admin|login)" || req.http.Content-Type ~ "multipart/form-data")
+    {
+        set req.backend_hint = master;
+        return(pass);
+    }
+
+    ## always cache these images & static assets
+    if (req.method == "GET" && req.url ~ "\.(css|js|gif|jpg|jpeg|bmp|png|ico|img|tga|wmf)$") {
+        unset req.http.cookie;
+        return(hash);
+    }
+    if (req.method == "GET" && req.url ~ "(xmlrpc.php|wlmanifest.xml)") {
+        unset req.http.cookie;
+        return(hash);
+    }
+
+    #never cache POST requests
+    if (req.method == "POST")
+    {
+        return(pass);
+    }
+    #DO cache this ajax request
+    if(req.http.X-Requested-With == "XMLHttpRequest" && req.url ~ "recent_reviews")
+    {
+        return (hash);
+    }
+
+    #dont cache ajax requests
+    if(req.http.X-Requested-With == "XMLHttpRequest" || req.url ~ "nocache" || req.url ~ "(control.php|wp-comments-post.php|wp-login.php|bb-login.php|bb-reset-password.php|register.php)")
+    {
+        return (pass);
+    }
+
+    if (req.http.Cookie && req.http.Cookie ~ "wordpress_") {
+        set req.http.Cookie = regsuball(req.http.Cookie, "wordpress_test_cookie=", "; wpjunk=");
+    }
+    ### don't cache authenticated sessions
+    if (req.http.Cookie && req.http.Cookie ~ "(wordpress_|PHPSESSID)") {
+        return(pass);
+    }
+
+    ### parse accept encoding rulesets to make it look nice
+    if (req.http.Accept-Encoding) {
+        if (req.http.Accept-Encoding ~ "gzip") {
+            set req.http.Accept-Encoding = "gzip";
+        } elsif (req.http.Accept-Encoding ~ "deflate") {
+            set req.http.Accept-Encoding = "deflate";
+        } else {
+            # unkown algorithm
+            unset req.http.Accept-Encoding;
+        }
+    }
+
+
+    if (req.http.Cookie)
+    {
+        set req.http.Cookie = ";" + req.http.Cookie;
+        set req.http.Cookie = regsuball(req.http.Cookie, "; +", ";");
+        set req.http.Cookie = regsuball(req.http.Cookie, ";(vendor_region|PHPSESSID|themetype2)=", "; \1=");
+        set req.http.Cookie = regsuball(req.http.Cookie, ";[^ ][^;]*", "");
+        set req.http.Cookie = regsuball(req.http.Cookie, "^[; ]+|[; ]+$", "");
+
+        if (req.http.Cookie == "") {
+            unset req.http.Cookie;
+        }
+    }
+    if (req.url ~ "^/$") {
+        unset req.http.cookie;
+    }
+    return(hash);
+}
+sub vcl_miss {
+    if (req.method == "PURGE") {
+        return (synth(404, "Not in cache."));
+    }
+    if (!(req.url ~ "wp-(login|admin)")) {
+        unset req.http.cookie;
+    }
+    if (req.url ~ "^/[^?]+.(jpeg|jpg|png|gif|ico|js|css|txt|gz|zip|lzma|bz2|tgz|tbz|html|htm)(\?.|)$") {
+        unset req.http.cookie;
+        set req.url = regsub(req.url, "\?.$", "");
+    }
+    if (req.url ~ "^/$") {
+        unset req.http.cookie;
+    }
+}
+sub vcl_backend_response {
+    if (bereq.url ~ "^/$") {
+        unset beresp.http.set-cookie;
+    }
+    if (!(bereq.url ~ "wp-(login|admin)")) {
+        unset beresp.http.set-cookie;
+    }
+    if (bereq.method == "PURGE") {
+        set beresp.ttl = 0s;
+    }
+}
+sub vcl_deliver {
+    if (obj.hits > 0) {
+            set resp.http.X-Cache = "HIT";
+    } else {
+            set resp.http.X-Cache = "MISS";
+    }
+}
