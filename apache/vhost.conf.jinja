@@ -14,4 +14,7 @@
     DocumentRoot {{ docroot }}
     ErrorLog ${APACHE_LOG_DIR}/{{ domain }}_ssl_error.log
     CustomLog ${APACHE_LOG_DIR}/{{ domain }}_ssl_access.log combined
+    SSLEngine on
+    SSLCertificateFile      /etc/ssl/certs/ssl-cert-snakeoil.pem
+    SSLCertificateKeyFile /etc/ssl/private/ssl-cert-snakeoil.key
 </VirtualHost>
