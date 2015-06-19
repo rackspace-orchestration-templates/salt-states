@@ -7,5 +7,6 @@ base:
     - memcached
     - mysql
     - owncloud
+    - php
     - salt-minion
     - tls
