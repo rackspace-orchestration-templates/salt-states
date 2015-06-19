@@ -1,6 +1,7 @@
 base:
   '*':
     - apache
+    - application
     - docker
     - drone
     - memcached
