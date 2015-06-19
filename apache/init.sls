@@ -15,6 +15,7 @@ configure-apache-ports:
     - user: root
     - group: root
     - mode: 0644
+    - template: jinja
 
 enable-ssl:
   apache_module.enable:
