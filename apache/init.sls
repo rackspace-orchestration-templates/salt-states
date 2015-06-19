@@ -37,7 +37,7 @@ write-{{ vhost.domain }}-vhost:
     - template: jinja
     - defaults:
         domain: {{ vhost.domain }}
-	docroot: {{ vhost.docroot }}
+        docroot: {{ vhost.docroot }}
 
 enable-{{ vhost.domain }}-vhost:
   file.symlink:
