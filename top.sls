@@ -10,3 +10,4 @@ base:
     - php
     - salt-minion
     - tls
+    - varnish
