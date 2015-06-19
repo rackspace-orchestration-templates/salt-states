@@ -1,0 +1,17 @@
+<VirtualHost *:{{ salt['pillar.get']('apache:http_port', '80') }}>
+    ServerAdmin admin@{{ domain }}
+    ServerName {{ domain }}
+    ServerAlias www.{{ domain }}
+    DocumentRoot {{ docroot }}
+    ErrorLog ${APACHE_LOG_DIR}/{{ domain }}_error.log
+    CustomLog ${APACHE_LOG_DIR}/{{ domain }}_access.log combined
+</VirtualHost>
+
+<VirtualHost *:{{ salt['pillar.get']('apache:https_port', '443') }}>
+    ServerAdmin admin@{{ domain }}
+    ServerName {{ domain }}
+    ServerAlias www.{{ domain }}
+    DocumentRoot {{ docroot }}
+    ErrorLog ${APACHE_LOG_DIR}/{{ domain }}_ssl_error.log
+    CustomLog ${APACHE_LOG_DIR}/{{ domain }}_ssl_access.log combined
+</VirtualHost>
