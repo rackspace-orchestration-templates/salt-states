@@ -10,6 +10,16 @@ write-application-deploy-key:
     - mode: 0500
     - contents_pillar: application:deploy_key
 
+disable-strict-host-key-check:
+  file.managed:
+    - name: /root/.ssh/config
+    - user: root
+    - group: root
+    - mode: 0500
+    - contents: |
+      Host *
+          StrictHostKeyChecking no
+
 application-repo-fingerprint:
   ssh_known_hosts:
     - name: {{ salt['pillar.get']('application:repo_hostname', '') }}
