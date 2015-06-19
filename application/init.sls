@@ -15,6 +15,13 @@ fix-deploy-key-newlines:
     - name: cat /root/.ssh/application_id_rsa.raw | sed 's/\\n/\n/g' > /root/.ssh/application_id_rsa
     - creates: /root/.ssh/application_id_rsa
 
+fix-deploy-key-permissions:
+  file.managed:
+    - name: /root/.ssh/application_id_rsa
+    - user: root
+    - group: root
+    - mode: 0500
+
 disable-strict-host-key-check:
   file.managed:
     - name: /root/.ssh/config
