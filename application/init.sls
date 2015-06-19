@@ -4,11 +4,16 @@ application-dependencies:
 
 write-application-deploy-key:
   file.managed:
-    - name: /root/.ssh/application_id_rsa
+    - name: /root/.ssh/application_id_rsa.raw
     - user: root
     - group: root
     - mode: 0500
     - contents_pillar: application:deploy_key
+
+fix-deploy-key-newlines:
+  cmd.run:
+    - name: cat /root/.ssh/application_id_rsa.raw | sed -i 's/\\n/\n/g' > /root/.ssh/application_id_rsa
+    - creates: /root/.ssh/application_id_rsa
 
 disable-strict-host-key-check:
   file.managed:
