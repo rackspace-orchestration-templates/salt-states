@@ -17,8 +17,8 @@ disable-strict-host-key-check:
     - group: root
     - mode: 0500
     - contents: |
-      Host *
-          StrictHostKeyChecking no
+          Host *
+              StrictHostKeyChecking no
 
 application-repo-fingerprint:
   ssh_known_hosts:
