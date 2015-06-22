@@ -2,8 +2,11 @@ base:
   '*':
     - apache
     - application
+    - composer
     - docker
     - drone
+    - drupal
+    - drush
     - memcached
     - mysql
     - owncloud
