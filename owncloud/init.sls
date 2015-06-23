@@ -35,3 +35,8 @@ write-autoconfig:
     - group: www-data
     - mode: 644
     - template: jinja
+
+enable-default-ssl-site:
+  file.symlink:
+    - name: /etc/apache2/sites-enabled/default-ssl.conf
+    - target: ../sites-available/default-ssl.conf

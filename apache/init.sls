@@ -21,11 +21,6 @@ enable-ssl:
   apache_module.enable:
     - name: ssl
 
-enable-default-ssl-site:
-  file.symlink:
-    - name: /etc/apache2/sites-enabled/default-ssl.conf
-    - target: ../sites-available/default-ssl.conf
-
 {% for vhost in salt['pillar.get']('apache:vhosts', '') %}
 write-{{ vhost.domain }}-vhost:
   file.managed:

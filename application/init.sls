@@ -38,3 +38,11 @@ checkout-application:
     - rev: {{ salt['pillar.get']('application:revision', 'master') }}
     - target: {{ salt['pillar.get']('application:destination', '') }}
     - identity: /root/.ssh/application_id_rsa
+
+disable-default-ssl-site:
+  file.absent:
+    - name: /etc/apache2/sites-enabled/default-ssl.conf
+
+disable-default-site:
+  file.absent:
+    - name: /etc/apache2/sites-enabled/default.conf
