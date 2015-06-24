@@ -14,6 +14,8 @@ configure-apache-ports:
     - template: jinja
     - watch_in:
       - service: install-apache
+    - require:
+      - apache_module: enable-ssl
 
 enable-ssl:
   apache_module.enable:
