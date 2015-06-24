@@ -3,7 +3,7 @@ install-apache:
     - name: apache2
   service.running:
     - name: apache2
-    - onchanges:
+    - watch:
       - file: /etc/apache2/sites-enabled/*
       - file: /etc/apache2/mods-enabled/*
       - file: /etc/apache2/ports.conf
