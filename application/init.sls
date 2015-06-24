@@ -47,6 +47,6 @@ disable-default-ssl-site:
 
 disable-default-site:
   file.absent:
-    - name: /etc/apache2/sites-enabled/default.conf
+    - name: /etc/apache2/sites-enabled/000-default.conf
     - watch_in:
       - service: install-apache
