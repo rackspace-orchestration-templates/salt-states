@@ -42,7 +42,11 @@ checkout-application:
 disable-default-ssl-site:
   file.absent:
     - name: /etc/apache2/sites-enabled/default-ssl.conf
+    - watch_in:
+      - service: install-apache
 
 disable-default-site:
   file.absent:
     - name: /etc/apache2/sites-enabled/default.conf
+    - watch_in:
+      - service: install-apache

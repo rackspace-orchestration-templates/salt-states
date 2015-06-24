@@ -3,10 +3,6 @@ install-apache:
     - name: apache2
   service.running:
     - name: apache2
-    - watch:
-      - file: /etc/apache2/sites-enabled/*
-      - file: /etc/apache2/mods-enabled/*
-      - file: /etc/apache2/ports.conf
 
 configure-apache-ports:
   file.managed:
@@ -16,6 +12,8 @@ configure-apache-ports:
     - group: root
     - mode: 0644
     - template: jinja
+    - watch_in:
+      - service: install-apache
 
 enable-ssl:
   apache_module.enable:
@@ -30,6 +28,8 @@ write-{{ vhost.domain }}-vhost:
     - group: root
     - mode: 0644
     - template: jinja
+    - watch_in:
+      - service: install-apache
     - defaults:
         domain: {{ vhost.domain }}
         docroot: {{ vhost.docroot }}
@@ -38,4 +38,6 @@ enable-{{ vhost.domain }}-vhost:
   file.symlink:
     - name: /etc/apache2/sites-enabled/{{ vhost.domain }}.conf
     - target: ../sites-available/{{ vhost.domain }}.conf
+    - watch_in:
+      - service: install-apache
 {% endfor %}
