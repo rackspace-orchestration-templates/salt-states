@@ -1,6 +1,8 @@
 install-php5:
   pkg.installed:
-    - name: php5
+    - pkgs:
+      - php5
+      - php5-mysql
 
 enable-php5-module:
   apache_module.enable:
