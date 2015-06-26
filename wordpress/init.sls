@@ -27,7 +27,7 @@ wp-cli-install:
   cmd.run:
     - name: |
         curl -O https://raw.githubusercontent.com/wp-cli/builds/gh-pages/phar/wp-cli.phar
-        chmod x wp-cli.phar
+        chmod +x wp-cli.phar
         mv wp-cli.phar /usr/local/bin/wp
     - creates: /usr/local/bin/wp
 
@@ -37,7 +37,7 @@ wp-cli-wordpress-install:
         mkdir -p /var/www/{{wordpress_domain}}
         cd /var/www/{{wordpress_domain}}
         wp core download --allow-root
-        chown -R www-data:www-data * .*
+        chown -R www-data:www-data /var/www/{{wordpress_domain}}
     - creates: /var/www/{{wordpress_domain}}/index.php
 
 wp-cli-wordpress-configure:
