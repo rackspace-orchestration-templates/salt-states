@@ -31,26 +31,35 @@ wp-cli-install:
         mv wp-cli.phar /usr/local/bin/wp
     - creates: /usr/local/bin/wp
 
+wp-create-docroot:
+  file.directory:
+    - name: /var/www/{{ wordpress_domain }}
+
 wp-cli-wordpress-install:
   cmd.run:
-    - name: |
-        mkdir -p /var/www/{{wordpress_domain}}
-        cd /var/www/{{wordpress_domain}}
-        wp core download --allow-root
-        chown -R www-data:www-data /var/www/{{wordpress_domain}}
-    - creates: /var/www/{{wordpress_domain}}/index.php
+    - name: wp core download --allow-root
+    - cwd: /var/www/{{ wordpress_domain }}
+    - creates: /var/www/{{ wordpress_domain }}/index.php
 
 wp-cli-wordpress-configure:
   cmd.run:
     - name: |
         wp core config --allow-root \
-          --dbname={{wordpress_db_name}} \
-          --dbuser={{wordpress_db_user}} \
-          --dbpass={{wordpress_db_pass}} \
-          --dbname={{wordpress_db_name}}
-        chown -R www-data:www-data * .*
-        wp user create --allow-root {{wordpress_user}} {{wordpress_email}} --user_pass="{{wordpress_pass}}"
-    - creates: /var/www/{{wordpress_domain}}/wp-config.php
+          --dbname={{ wordpress_db_name }} \
+          --dbuser={{ wordpress_db_user }} \
+          --dbpass={{ wordpress_db_pass }} \
+          --dbname={{ wordpress_db_name }}
+        wp user create --allow-root {{ wordpress_user }} {{ wordpress_email }} --user_pass="{{ wordpress_pass }}"
+    - creates: /var/www/{{ wordpress_domain }}/wp-config.php
+
+wp-enforce-permissions:
+  file.directory:
+    - name: /var/www/{{ wordpress_domain }}
+    - user: www-data
+    - group: www-data
+    - recurse
+      - user
+      - group
 
 write-wordpress-varnish-template:
   file.managed:
