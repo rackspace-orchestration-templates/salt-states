@@ -10,7 +10,7 @@ install-mysql-grant-dependencies:
 
 mysql-grant-creation:
   mysql_grants.present:
-    - grant: {{mysql_grants}}
-    - database: {{mysql_db}}
-    - user: {{mysql_user}}
-    - host: {{mysql_host}}
+    - grant: {{ mysql_grants }}
+    - database: {{ mysql_db }}
+    - user: {{ mysql_user }}
+    - host: {{ mysql_host }}

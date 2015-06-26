@@ -9,6 +9,6 @@ install-mysql-user-dependencies:
 
 mysql-user-creation:
   mysql_user.present:
-    - host: {{mysql_host}}
-    - name: {{mysql_user}}
-    - password: "{{mysql_pass}}"
+    - host: {{ mysql_host }}
+    - name: {{ mysql_user }}
+    - password: "{{ mysql_pass }}"

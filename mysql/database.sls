@@ -7,4 +7,4 @@ install-mysql-database-dependencies:
 
 mysql-database-creation:
   mysql_database.present:
-    - name: {{mysql_db}}
+    - name: {{ mysql_db }}
