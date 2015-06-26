@@ -6,7 +6,7 @@ drush-dependencies:
 # Requires composer
 drush-install:
   cmd.run:
-    - name: composer global require drush/drush:7.*
+    - name: COMPOSER_HOME=/usr/share/drush composer global require drush/drush:7.*
 
 /usr/bin/drush:
   file.symlink:
