@@ -20,15 +20,15 @@ drupal-dependencies:
       - php5-apcu
 
 # Depends on drush and MySQL
+drupal-download:
+  cmd.run:
+    - name: drush dl drupal --drupal-project-rename={{ drupal_domain }}
+    - cwd: /var/www
+    - creates: /var/www/{{ drupal_domain }}/index.php
+
 drupal-install:
   cmd.run:
     - name: |
-        cd /var/www
-
-        drush dl drupal --drupal-project-rename={{ drupal_domain }}
-
-        cd {{ drupal_domain }}
-
         drush --yes site-install standard \
         --db-url='mysql://{{ drupal_db_user }}:{{ drupal_db_pass }}@{{ drupal_db_host }}/{{ drupal_db_name }}' \
         --db-su=root \
@@ -37,9 +37,16 @@ drupal-install:
         --account-name=-{{ drupal_admin_user }} \
         --account-pass={{ drupal_admin_pass }} \
         --clean-url=0
+    - cwd: /var/www/{{ drupal_domain }}
 
-        chown -R www-data:www-data /var/www/{{ drupal_domain }}
-    - creates: /var/www/{{drupal_domain}}/index.php
+drupal-enforce-file-permissions:
+  file.directory:
+    - name: /var/www/{{ drupal_domain }}
+    - user: www-data
+    - group: www-data
+    - recurse:
+      - user
+      - group
 
 disable-default-ssl-site:
   file.absent:
