@@ -25,20 +25,20 @@ drupal-install:
     - name: |
         cd /var/www
 
-        drush dl drupal --drupal-project-rename={{drupal_domain}}
+        drush dl drupal --drupal-project-rename={{ drupal_domain }}
 
         cd {{drupal_domain}}
 
         drush --yes site-install standard \
-        --db-url='mysql://{{drupal_db_user}}:{{drupal_db_pass}}@{{drupal_db_host}}/{{drupal_db_name}}' \
+        --db-url='mysql://{{ drupal_db_user }}:{{ drupal_db_pass }}@{{ drupal_db_host }}/{{ drupal_db_name }}' \
         --db-su=root \
-        --db-su-pw='{{mysql_root_password}}' \
-        --site-name={{drupal_domain}} \
-        --account-name=-{{drupal_admin_user}} \
-        --account-pass={{drupal_admin_pass}} \
+        --db-su-pw='{{ mysql_root_password }}' \
+        --site-name={{ drupal_domain }} \
+        --account-name=-{{ drupal_admin_user }} \
+        --account-pass={{ drupal_admin_pass }} \
         --clean-url=0 -y
 
-        chown -R www-data:www-data /var/www/{{drupal_domain}}
+        chown -R www-data:www-data /var/www/{{ drupal_domain }}
     - creates: /var/www/{{drupal_domain}}/index.php
 
 disable-default-ssl-site:
