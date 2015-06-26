@@ -48,13 +48,13 @@ drupal-enforce-file-permissions:
       - user
       - group
 
-disable-default-ssl-site:
+drupal-disable-default-ssl-site:
   file.absent:
     - name: /etc/apache2/sites-enabled/default-ssl.conf
     - watch_in:
       - service: install-apache
 
-disable-default-site:
+drupal-disable-default-site:
   file.absent:
     - name: /etc/apache2/sites-enabled/000-default.conf
     - watch_in:
