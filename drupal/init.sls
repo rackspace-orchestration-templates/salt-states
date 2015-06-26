@@ -40,3 +40,15 @@ drupal-install:
 
         chown -R www-data:www-data /var/www/{{drupal_domain}}
     - creates: /var/www/{{drupal_domain}}/index.php
+
+disable-default-ssl-site:
+  file.absent:
+    - name: /etc/apache2/sites-enabled/default-ssl.conf
+    - watch_in:
+      - service: install-apache
+
+disable-default-site:
+  file.absent:
+    - name: /etc/apache2/sites-enabled/000-default.conf
+    - watch_in:
+      - service: install-apache
