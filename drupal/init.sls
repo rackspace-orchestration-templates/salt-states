@@ -29,7 +29,7 @@ drupal-install:
 
         cd {{drupal_domain}}
 
-        drush site-install standard \
+        drush --yes site-install standard \
         --db-url='mysql://{{drupal_db_user}}:{{drupal_db_pass}}@{{drupal_db_host}}/{{drupal_db_name}}' \
         --db-su=root \
         --db-su-pw='{{mysql_root_password}}' \
