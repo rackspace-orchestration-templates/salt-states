@@ -10,4 +10,4 @@ drush-install:
 
 /usr/bin/drush:
   file.symlink:
-    - target: /root/.composer/vendor/bin/drush
+    - target: /usr/share/drush/drush/drush
