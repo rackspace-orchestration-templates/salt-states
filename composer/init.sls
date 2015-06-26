@@ -7,5 +7,5 @@ composer-global-install:
   cmd.run:
     - name: |
         curl -sS https://getcomposer.org/installer | php
-        mv /usr/local/bin/composer.phar /usr/local/bin/composer
+        mv /root/composer.phar /usr/local/bin/composer
     - creates: /usr/local/bin/composer
