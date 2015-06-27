@@ -73,8 +73,8 @@ wp-enforce-permissions:
     - user: www-data
     - group: www-data
     {% if salt['pillar.get']('wordpress:group_write', False) %}
-    dir_mode: 775
-    file_mode: 664
+    - dir_mode: 775
+    - file_mode: 664
     {% endif %}
     - recurse:
       - user
