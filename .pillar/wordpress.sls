@@ -10,6 +10,7 @@ wordpress:
   password: 1w0rdpr3ss
   email: root@example.com
   wordpress_sitename: WordPress
+  parentdir: /var/www/vhosts
 
   # Database settings
   db_host: localhost
