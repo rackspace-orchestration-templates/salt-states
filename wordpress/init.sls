@@ -47,8 +47,7 @@ wp-cli-wordpress-configure:
         wp core config --allow-root \
           --dbname={{ wordpress_db_name }} \
           --dbuser={{ wordpress_db_user }} \
-          --dbpass={{ wordpress_db_pass }} \
-          --dbname={{ wordpress_db_name }}
+          --dbpass={{ wordpress_db_pass }}
         wp user create --allow-root {{ wordpress_user }} {{ wordpress_email }} --user_pass="{{ wordpress_pass }}"
     - cwd: /var/www/{{ wordpress_domain }}
     - creates: /var/www/{{ wordpress_domain }}/wp-config.php
