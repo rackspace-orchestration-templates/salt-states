@@ -50,6 +50,7 @@ wp-cli-wordpress-configure:
           --dbpass={{ wordpress_db_pass }} \
           --dbname={{ wordpress_db_name }}
         wp user create --allow-root {{ wordpress_user }} {{ wordpress_email }} --user_pass="{{ wordpress_pass }}"
+    - cwd: /var/www/{{ wordpress_domain }}
     - creates: /var/www/{{ wordpress_domain }}/wp-config.php
 
 wp-enforce-permissions:
