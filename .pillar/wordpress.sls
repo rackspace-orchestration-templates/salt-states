@@ -9,6 +9,7 @@ wordpress:
   user: wp_user
   password: 1w0rdpr3ss
   email: root@example.com
+  wordpress_sitename: WordPress
 
   # Database settings
   db_host: localhost
