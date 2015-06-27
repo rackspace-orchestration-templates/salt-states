@@ -1,0 +1,31 @@
+{% set lsyncd_logdir = salt['pillar.get']('lsyncd:logdir', '/var/log/lsyncd') %}
+{% set lsyncd_interval = salt['pillar.get']('lsyncd:interval', '20') %}
+{% set lsyncd_source_directory = salt['pillar.get']('lsyncd:source_directory', '/var/www') %}
+{% set lsyncd_target_directory = salt['pillar.get']('lsyncd:target_directory', '/var/www') %}
+{% set lsyncd_rsh_options = salt['pillar.get']('lsyncd:rsh_options', '/usr/bin/ssh -p 22 -o StrictHostKeyChecking=no') %}
+
+settings {
+    logfile = "{{ lsyncd_logdir }}/lsyncd.log",
+    statusFile = "{{ lsyncd_logdir }}/lsyncd-status.log",
+    statusInterval = {{ lsyncd_interval }}
+}
+
+targetlist = {
+{% for target in salt['pillar.get']('lsyncd:targets', '') %}
+    "{{ target }}:{{ lsyncd_target_directory }}",
+{% endfor %}
+}
+
+for _, server in ipairs(targetlist) do
+    sync {
+        default.rsync,
+        source="{{ lsyncd_source_directory }}",
+        target=server
+        rsync = {
+            compress = true,
+            acls = true,
+            verbose = true,
+            rsh = "{{ lsyncd_rsh_options }}"
+        }
+    }
+end
