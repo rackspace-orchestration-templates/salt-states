@@ -21,7 +21,7 @@ enable-ssl:
   apache_module.enable:
     - name: ssl
 
-{% if salt['pillar.get']('apache:disable_default_site', False) is True %}
+{% if salt['pillar.get']('apache:disable_default_site', False) %}
 disable-default-apache-site:
   cmd.run:
     - name: a2dissite 000-default
