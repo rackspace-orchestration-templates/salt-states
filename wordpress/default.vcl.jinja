@@ -1,11 +1,11 @@
 vcl 4.0;
 backend default {
-    .host = {{ salt['pillar.get']('wordpress:varnish_backend_host', '127.0.0.1') }};
-    .port = {{ salt['pillar.get']('wordpress:varnish_backend_port', '8080') }};
+    .host = "{{ salt['pillar.get']('wordpress:varnish_backend_host', '127.0.0.1') }}";
+    .port = "{{ salt['pillar.get']('wordpress:varnish_backend_port', '8080') }}";
 }
 backend master {
-    .host = {{ salt['pillar.get']('wordpress:varnish_master_host', '127.0.0.1') }};
-    .port = {{ salt['pillar.get']('wordpress:varnish_master_port', '8080') }};
+    .host = "{{ salt['pillar.get']('wordpress:varnish_master_host', '127.0.0.1') }}";
+    .port = "{{ salt['pillar.get']('wordpress:varnish_master_port', '8080') }}";
 }
 acl purge {
         "localhost";
