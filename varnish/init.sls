@@ -25,3 +25,12 @@ install_varnish:
     - name: varnish
     - watch:
       - file: /etc/varnish/default.vcl
+
+write-varnish-default:
+  file.managed:
+    - name: /etc/default/varnish
+    - source: salt://varnish/varnish.jinja
+    - user: root
+    - group: root
+    - mode: 644
+    - template: jinja
