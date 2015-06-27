@@ -57,7 +57,7 @@ wp-enforce-permissions:
     - name: /var/www/{{ wordpress_domain }}
     - user: www-data
     - group: www-data
-    - recurse
+    - recurse:
       - user
       - group
 
