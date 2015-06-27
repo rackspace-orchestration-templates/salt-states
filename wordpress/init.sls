@@ -36,6 +36,7 @@ wp-cli-install:
 wp-create-docroot:
   file.directory:
     - name: {{ wordpress_parentdir }}/{{ wordpress_domain }}
+    - makedirs: True
 
 wp-cli-wordpress-install:
   cmd.run:
