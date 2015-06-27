@@ -6,6 +6,7 @@
 {% set wordpress_pass = salt['pillar.get']('wordpress:pass', '1w0rdpr3ss') %}
 {% set wordpress_email = salt['pillar.get']('wordpress:email', 'root@example.com') %}
 {% set wordpress_sitename = salt['pillar.get']('wordpress:sitename', 'WordPress') %}
+{% set wordpress_parentdir = salt['pillar.get']('wordpress:parentdir', '/var/www/vhosts') %}
 
 {% set wordpress_db_host = salt['pillar.get']('wordpress:db_host', 'localhost') %}
 {% set wordpress_db_name = salt['pillar.get']('wordpress:db_name', 'wordpress') %}
@@ -34,13 +35,13 @@ wp-cli-install:
 
 wp-create-docroot:
   file.directory:
-    - name: /var/www/{{ wordpress_domain }}
+    - name: {{ wordpress_parentdir }}/{{ wordpress_domain }}
 
 wp-cli-wordpress-install:
   cmd.run:
     - name: wp core download --allow-root
-    - cwd: /var/www/{{ wordpress_domain }}
-    - creates: /var/www/{{ wordpress_domain }}/index.php
+    - cwd: {{ wordpress_parentdir }}/{{ wordpress_domain }}
+    - creates: {{ wordpress_parentdir }}/{{ wordpress_domain }}/index.php
 
 wp-cli-wordpress-configure:
   cmd.run:
@@ -49,8 +50,8 @@ wp-cli-wordpress-configure:
           --dbname={{ wordpress_db_name }} \
           --dbuser={{ wordpress_db_user }} \
           --dbpass={{ wordpress_db_pass }}
-    - cwd: /var/www/{{ wordpress_domain }}
-    - creates: /var/www/{{ wordpress_domain }}/wp-config.php
+    - cwd: {{ wordpress_parentdir }}/{{ wordpress_domain }}
+    - creates: {{ wordpress_parentdir }}/{{ wordpress_domain }}/wp-config.php
 
 wp-cli-wordpress-admin-user:
   cmd.run:
@@ -62,12 +63,12 @@ wp-cli-wordpress-admin-user:
           --admin_password="{{ wordpress_pass }}" \
           --admin_email="{{ wordpress_email }}"
         touch /root/.wp_configured
-    - cwd: /var/www/{{ wordpress_domain }}
+    - cwd: {{ wordpress_parentdir }}/{{ wordpress_domain }}
     - creates: /root/.wp_configured
 
 wp-enforce-permissions:
   file.directory:
-    - name: /var/www/{{ wordpress_domain }}
+    - name: {{ wordpress_parentdir }}/{{ wordpress_domain }}
     - user: www-data
     - group: www-data
     - recurse:
