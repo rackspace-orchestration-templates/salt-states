@@ -25,6 +25,7 @@ install_varnish:
     - name: varnish
     - watch:
       - file: /etc/varnish/default.vcl
+      - file: /etc/default/varnish
 
 write-varnish-default:
   file.managed:
