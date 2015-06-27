@@ -7,6 +7,7 @@ base:
     - drone
     - drupal
     - drush
+    - lsyncd
     - memcached
     - mysql
     - owncloud
