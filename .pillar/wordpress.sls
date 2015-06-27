@@ -11,6 +11,7 @@ wordpress:
   email: root@example.com
   wordpress_sitename: WordPress
   parentdir: /var/www/vhosts
+  group_write: False
 
   # Database settings
   db_host: localhost

@@ -72,6 +72,10 @@ wp-enforce-permissions:
     - name: {{ wordpress_parentdir }}/{{ wordpress_domain }}
     - user: www-data
     - group: www-data
+    {% if salt['pillar.get']('wordpress:group_write', False) %}
+    dir_mode: 775
+    file_mode: 664
+    {% endif %}
     - recurse:
       - user
       - group
