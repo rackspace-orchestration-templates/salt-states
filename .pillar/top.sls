@@ -13,6 +13,7 @@ base:
     - php
     - salt-minion
     - tls
+    - users
     - varnish
     - vsftpd
     - wordpress
