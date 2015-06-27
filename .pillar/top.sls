@@ -14,4 +14,5 @@ base:
     - salt-minion
     - tls
     - varnish
+    - vsftpd
     - wordpress
