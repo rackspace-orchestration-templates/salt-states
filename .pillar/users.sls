@@ -31,9 +31,9 @@ users:
       pubkey: PUBLICKEY
     # ... or you can pull them from a different pillar,
     # for example one called "ssh_keys":
-    ssh_keys_pillar:
-      id_rsa: "ssh_keys"
-      another_key_pair: "ssh_keys"
+    #ssh_keys_pillar:
+    #  id_rsa: "ssh_keys"
+    #  another_key_pair: "ssh_keys"
     ssh_auth:
       - PUBLICKEY
     ssh_auth.absent:
