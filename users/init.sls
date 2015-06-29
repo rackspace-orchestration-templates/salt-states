@@ -112,35 +112,35 @@ users_user_keydir_{{ name }}:
       - group: {{ group }}
       {%- endfor %}
 
-  {% if 'ssh_keys' in user %}
-  {% set key_type = 'id_' + user.get('ssh_key_type', 'rsa') %}
-users_user_{{ name }}_private_key:
-  file.managed:
-    - name: {{ user.get('home', '/home/{0}'.format(name)) }}/.ssh/{{ key_type }}
-    - user: {{ name }}
-    - group: {{ user_group }}
-    - mode: 600
-    - show_diff: False
-    - contents_pillar: users:{{ name }}:ssh_keys:privkey
-    - require:
-      - user: users_{{ name }}_user
-      {% for group in user.get('groups', []) %}
-      - group: users_{{ name }}_{{ group }}_group
-      {% endfor %}
-users_user_{{ name }}_public_key:
-  file.managed:
-    - name: {{ user.get('home', '/home/{0}'.format(name)) }}/.ssh/{{ key_type }}.pub
-    - user: {{ name }}
-    - group: {{ user_group }}
-    - mode: 644
-    - show_diff: False
-    - contents_pillar: users:{{ name }}:ssh_keys:pubkey
-    - require:
-      - user: users_{{ name }}_user
-      {% for group in user.get('groups', []) %}
-      - group: users_{{ name }}_{{ group }}_group
-      {% endfor %}
-  {% endif %}
+#  {% if 'ssh_keys' in user %}
+#  {% set key_type = 'id_' + user.get('ssh_key_type', 'rsa') %}
+#users_user_{{ name }}_private_key:
+#  file.managed:
+#    - name: {{ user.get('home', '/home/{0}'.format(name)) }}/.ssh/{{ key_type }}
+#    - user: {{ name }}
+#    - group: {{ user_group }}
+#    - mode: 600
+#    - show_diff: False
+#    - contents_pillar: users:{{ name }}:ssh_keys:privkey
+#    - require:
+#      - user: users_{{ name }}_user
+#      {% for group in user.get('groups', []) %}
+#      - group: users_{{ name }}_{{ group }}_group
+#      {% endfor %}
+#users_user_{{ name }}_public_key:
+#  file.managed:
+#    - name: {{ user.get('home', '/home/{0}'.format(name)) }}/.ssh/{{ key_type }}.pub
+#    - user: {{ name }}
+#    - group: {{ user_group }}
+#    - mode: 644
+#    - show_diff: False
+#    - contents_pillar: users:{{ name }}:ssh_keys:pubkey
+#    - require:
+#      - user: users_{{ name }}_user
+#      {% for group in user.get('groups', []) %}
+#      - group: users_{{ name }}_{{ group }}_group
+#      {% endfor %}
+#  {% endif %}
 
 {% if 'ssh_auth_file' in user %}
 users_authorized_keys_{{ name }}:
