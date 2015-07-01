@@ -34,7 +34,7 @@ drupal-install:
         --db-su=root \
         --db-su-pw='{{ mysql_root_password }}' \
         --site-name={{ drupal_domain }} \
-        --account-name=-{{ drupal_admin_user }} \
+        --account-name={{ drupal_admin_user }} \
         --account-pass={{ drupal_admin_pass }} \
         --clean-url=0
     - cwd: /var/www/{{ drupal_domain }}
