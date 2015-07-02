@@ -1,0 +1,6 @@
+{% for k, v in configuration.items() %}
+[{{ k }}]
+{% for j, w in v.items() %}
+{{ j }} = {{ w }}
+{%- endfor -%}
+{% endfor %}
