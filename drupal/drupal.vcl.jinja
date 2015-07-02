@@ -1,17 +1,10 @@
-<% require 'digest/md5' %>
-## These are for the <%= @domain %> install.
-## The names of the backends have to be shortened
-## using an MD5 Hash because varnish only allows a small
-## number of characters for them.
-
-<% domain_hash = Digest::MD5.hexdigest(@domain).slice(0,10) %>
-backend master_<%= domain_hash %>_admin {
-    .host = "<%= @master %>";
-    .port = "<%= node['varnish']['backend_port'] %>";
+backend master_drupal_admin {
+    .host = "{{ salt['pillar.get']('varnish:backend_master', '127.0.0.1') }}";
+    .port = "{{ salt['pillar.get']('varnish:backend_port', '8080') }}";
 }
 backend default {
     .host = "127.0.0.1";
-    .port = "<%= node['varnish']['backend_port'] %>";
+    .port = "{{ salt['pillar.get']('varnish:backend_port', '8080') }}";
 }
 acl internal {
   "localhost";
@@ -19,9 +12,6 @@ acl internal {
 }
 acl purge {
   "localhost";
-<%- @purge_hosts.each do |purge_host| %>
-  "<%= purge_host %>";
-<%- end %>
 }
 sub vcl_recv {
   if (req.request == "PURGE") {
@@ -40,7 +30,7 @@ sub vcl_recv {
   }
   if (req.restarts != 0 || req.http.Content-Type ~ "multipart/form-data")
   {
-      set req.backend = master_<%= domain_hash %>_admin;
+      set req.backend = master_drupal_admin;
   }
   # Check the incoming request type is "PURGE", not "GET" or "POST"
   if (req.request == "PURGE") {
@@ -57,7 +47,7 @@ sub vcl_recv {
   }
   # Pipe these paths directly to Apache for streaming.
   if (req.url ~ "^/admin/content/backup_migrate/export") {
-    set req.backend = master_<%= domain_hash %>_admin;
+    set req.backend = master_drupal_admin;
     return (pipe);
   }
   #  If global redirect is on
@@ -78,7 +68,7 @@ sub vcl_recv {
     req.url ~ "^/flag/.*$" ||
     req.url ~ "^.*/ajax/.*$" ||
     req.url ~ "^.*/ahah/.*$") {
-    set req.backend = master_<%= domain_hash %>_admin;
+    set req.backend = master_drupal_admin;
     return (pass);
   }
   # Disallow outside access to cron.php or install.php
@@ -118,7 +108,7 @@ sub vcl_recv {
     # If there are any cookies left (a session or NO_CACHE cookie), do not
     # cache the page; pass it on to Apache directly.
     else {
-      set req.backend = master_<%= domain_hash %>_admin;
+      set req.backend = master_drupal_admin;
       return (pass);
     }
   }
