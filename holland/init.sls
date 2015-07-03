@@ -22,3 +22,11 @@ write-{{ backupset }}-backupset:
     - defaults:
         configuration: {{ configuration }}
 {% endfor %}
+
+cron-daily-holland-backup:
+  file.managed:
+    - name: /etc/cron.daily/holland
+    - source: salt://holland/holland
+    - user: root
+    - group: root
+    - mode: 755
