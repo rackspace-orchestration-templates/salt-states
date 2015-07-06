@@ -48,6 +48,7 @@ wp-cli-wordpress-configure:
   cmd.run:
     - name: |
         wp core config --allow-root \
+          --dbhost={{ wordpress_db_host }} \
           --dbname={{ wordpress_db_name }} \
           --dbuser={{ wordpress_db_user }} \
           --dbpass={{ wordpress_db_pass }}
