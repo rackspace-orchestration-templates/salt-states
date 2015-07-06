@@ -11,16 +11,16 @@ settings {
 }
 
 targetlist = {
-{% for target in salt['pillar.get']('lsyncd:targets', '') %}
+{% for target in salt['pillar.get']('lsyncd:targets', '') -%}
     "{{ target }}:{{ lsyncd_target_directory }}",
-{% endfor %}
+{% endfor -%}
 }
 
 for _, server in ipairs(targetlist) do
     sync {
         default.rsync,
         source="{{ lsyncd_source_directory }}",
-        target=server
+        target=server,
         rsync = {
             compress = true,
             acls = true,
