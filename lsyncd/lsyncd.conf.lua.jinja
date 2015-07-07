@@ -23,6 +23,8 @@ for _, server in ipairs(targetlist) do
         target=server,
         rsync = {
             compress = true,
+            owner=true,
+            group=true,
             acls = true,
             verbose = true,
             rsh = "{{ lsyncd_rsh_options }}"
