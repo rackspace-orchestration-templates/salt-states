@@ -40,3 +40,5 @@ enable-default-ssl-site:
   file.symlink:
     - name: /etc/apache2/sites-enabled/default-ssl.conf
     - target: ../sites-available/default-ssl.conf
+  cmd.run:
+    - name: service apache2 reload
