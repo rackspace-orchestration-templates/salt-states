@@ -21,6 +21,18 @@ enable-ssl:
   apache_module.enable:
     - name: ssl
 
+enable-rewrite:
+  apache_module.enable:
+    - name: rewrite
+  file.replace:
+    - name: /etc/apache2/apache2.conf
+    - pattern: AllowOverride None
+    - repl: AllowOverride All
+  service.running:
+    - name: apache2
+    - watch:
+      - file: enable-rewrite
+
 {% if salt['pillar.get']('apache:disable_default_site', False) %}
 disable-default-apache-site:
   cmd.run:
