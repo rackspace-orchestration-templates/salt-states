@@ -72,6 +72,9 @@ users_{{ name }}_user:
     {% if 'password' in user -%}
     - password: '{{ user['password'] }}'
     {% endif -%}
+    {% if 'rawpassword' in user -%}
+    - password: '{{ salt['shadow.gen_password'](user['rawpassword']) }}'
+    {% endif -%}
     {% if 'prime_group' in user and 'gid' in user['prime_group'] -%}
     - gid: {{ user['prime_group']['gid'] }}
     {% else -%}
